@@ -2,28 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Hobbies.css';
 
+
 const Hobbies = ({ userId }) => {
     const [hobbiesList, setHobbiesList] = useState([]);
     const [userName, setUserName] = useState('');
-
     useEffect(() => {
         // Fetch user details
-        fetch(`http://localhost:8080/api/v1/users/${userId}`)
+        fetch(`/api/v1/users/${userId}`)
             .then(response => response.json())
             .then(data => {
                 console.log('User data:', data);
                 setUserName(data.name);
             })
-            .catch(error => console.error('Error fetching user details:', error));
+            .catch(error => console.error(error));
 
         // Fetch hobbies
-        fetch(`http://localhost:8080/api/v1/hobbies/users/${userId}`)
+        fetch(`/api/v1/hobbies/users/${userId}`)
             .then(response => response.json())
             .then(data => {
                 console.log('Hobbies data:', data);
                 setHobbiesList(data);
             })
-            .catch(error => console.error('Error fetching hobbies:', error));
+            .catch(error => console.error(error));
     }, [userId]);
 
     // Logic to handle flexible media rendering

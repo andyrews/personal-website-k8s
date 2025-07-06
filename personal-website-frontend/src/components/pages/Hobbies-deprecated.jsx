@@ -10,16 +10,16 @@ const Hobbies = ({ userId }) => {
 
     useEffect(() => {
         // Fetch user details
-        fetch(`http://localhost:8080/api/v1/users/${userId}`)
+        fetch(`api/v1/users/${userId}`)
             .then(response => response.json())
             .then(data => setUserName(data.name))
-            .catch(error => console.error('Error fetching user details:', error));
+            .catch(error => console.error(error));
 
         // Fetch hobbies
-        fetch(`http://localhost:8080/api/v1/hobbies/users/${userId}`)
+        fetch(`api/v1/hobbies/users/${userId}`)
             .then(response => response.json())
             .then(data => setHobbiesList(data))
-            .catch(error => console.error('Error fetching hobbies:', error));
+            .catch(error => console.error(error));
     }, [userId]);
 
     const handleAdd = () => {
@@ -41,8 +41,8 @@ const Hobbies = ({ userId }) => {
     const handleSubmit = () => {
         const method = currentHobby ? 'PUT' : 'POST';
         const url = currentHobby
-            ? `http://localhost:8080/api/v1/hobbies/${currentHobby.id}`
-            : 'http://localhost:8080/api/v1/hobbies';
+            ? `api/v1/hobbies/${currentHobby.id}`
+            : 'api/v1/hobbies';
 
         fetch(url, {
             method: method,
@@ -68,12 +68,12 @@ const Hobbies = ({ userId }) => {
                 });
                 setIsModalVisible(false);
             })
-            .catch(error => console.error('Error saving hobby:', error));
+            .catch(error => console.error(error));
     };
 
 
     const handleDelete = (hobbyId) => {
-        fetch(`http://localhost:8080/api/v1/hobbies/${hobbyId}`, {
+        fetch(`api/v1/hobbies/${hobbyId}`, {
             method: 'DELETE',
         })
             .then(response => {
@@ -83,7 +83,7 @@ const Hobbies = ({ userId }) => {
                     console.error('Failed to delete hobby');
                 }
             })
-            .catch(error => console.error('Error deleting hobby:', error));
+            .catch(error => console.error(error));
     };
 
     //LOGIC TO HANDLE FLEXIBLE MEDIA RENDERING

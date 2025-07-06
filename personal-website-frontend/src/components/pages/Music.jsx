@@ -4,6 +4,7 @@ import SpotifyPlayer from '../SpotifyPlayer';
 import MusicModal from '../MusicModal.jsx';
 import './Music.css';
 
+
 const Music = ({ userId }) => {
     const [musicList, setMusicList] = useState([]);
     const [userName, setUserName] = useState('');
@@ -16,19 +17,18 @@ const Music = ({ userId }) => {
         aaUrl: '',
         spUrl: ''
     });
-
     useEffect(() => {
         // Fetch user details
-        fetch(`http://localhost:8080/api/v1/users/${userId}`)
+        fetch(`/api/v1/users/${userId}`)
             .then(response => response.json())
             .then(data => setUserName(data.name))
-            .catch(error => console.error('Error fetching user details:', error));
+            .catch(error => console.error(error));
 
         // Fetch music
-        fetch(`http://localhost:8080/api/v1/beatsies/users/${userId}`)
+        fetch(`/api/v1/beatsies/users/${userId}`)
             .then(response => response.json())
             .then(data => setMusicList(data))
-            .catch(error => console.error('Error fetching music:', error));
+            .catch(error => console.error(error));
     }, [userId]);
 
     const handleUpdate = (music) => {
@@ -44,7 +44,7 @@ const Music = ({ userId }) => {
     };
 
     const handleSubmit = () => {
-        fetch(`http://localhost:8080/api/v1/beatsies/${currentMusic.id}`, {
+        fetch(`/api/v1/beatsies/${currentMusic.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const Music = ({ userId }) => {
                     console.error('Failed to update music');
                 }
             })
-            .catch(error => console.error('Error updating music:', error));
+            .catch(error => console.error(error));
     };
 
 

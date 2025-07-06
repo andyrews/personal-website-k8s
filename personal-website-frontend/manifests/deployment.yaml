@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vite-frontend
+  labels:
+    app: vite-frontend
+  namespace: frontend
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: vite-frontend
+  template:
+    metadata:
+      labels:
+        app: vite-frontend
+    spec:
+      containers:
+        - name: vite
+          image: andyrews/clark-site-frontend
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always

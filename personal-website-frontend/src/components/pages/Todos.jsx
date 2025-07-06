@@ -13,10 +13,9 @@ const Todos = ({ userId }) => {
     const [filterStatus, setFilterStatus] = useState('all');
     const [selectedTodos, setSelectedTodos] = useState([]);
     const [error, setError] = useState('');
-
     useEffect(() => {
         // Fetch user details
-        fetch(`http://localhost:8080/api/v1/users/${userId}`)
+        fetch(`/api/v1/users/${userId}`)
             .then(response => response.json())
             .then(data => {
                 setUserName(data.name);
@@ -27,21 +26,21 @@ const Todos = ({ userId }) => {
                     setUserImage(clark);
                 }
             })
-            .catch(error => setError('Error fetching user details: ' + error));
+            .catch(error => setError(error));
 
         // Fetch todos
         fetchTodos();
     }, [userId]);
 
     const fetchTodos = () => {
-        fetch(`http://localhost:8080/api/v1/todos/users/${userId}`)
+        fetch(`/api/v1/todos/users/${userId}`)
             .then(response => response.json())
             .then(data => setTodos(Array.isArray(data) ? data : []))
-            .catch(error => setError('Error fetching todos: ' + error));
+            .catch(error => setError(error));
     };
 
     const handleAddTodo = () => {
-        fetch(`http://localhost:8080/api/v1/todos`, {
+        fetch(`/api/v1/todos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...newTodo, users: { id: userId } })
@@ -50,26 +49,26 @@ const Todos = ({ userId }) => {
                 setNewTodo({ category: '', task: '', description: '' });
                 fetchTodos();
             })
-            .catch(error => setError('Error adding todo: ' + error));
+            .catch(error => setError(error));
     };
 
     const handleDeleteSelected = () => {
         selectedTodos.forEach(todoId => {
-            fetch(`http://localhost:8080/api/v1/todos/${todoId}`, {
+            fetch(`/api/v1/todos/${todoId}`, {
                 method: 'DELETE'
             })
                 .then(() => fetchTodos())
-                .catch(error => setError('Error deleting todo: ' + error));
+                .catch(error => setError(error));
         });
         setSelectedTodos([]);
     };
 
     const handleCompletionToggle = (todoId, completed) => {
-        fetch(`http://localhost:8080/api/v1/todos/${todoId}/complete?completed=${completed}`, {
+        fetch(`/api/v1/todos/${todoId}/complete?completed=${completed}`, {
             method: 'PUT',
         })
             .then(() => fetchTodos())
-            .catch(error => setError('Error updating todo: ' + error));
+            .catch(error => setError(error));
     };
 
     const filteredTodos = todos.filter(todo => {
